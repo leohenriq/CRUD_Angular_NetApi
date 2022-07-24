@@ -12,7 +12,9 @@ npm start
 Será gerada uma url para que você possa visualizar o app: `http://localhost:4200/`.
 
 Caso não esteja batendo as chamadas do front-end na api, visualize os arquivos:
+
 `src > environments > environment.ts` e `src > environments > environment.prod.ts`
+
 Verifique a porta que esta sendo apontada no `urlAPI`, compare com a sua e altere caso seja necessário. 
 
 ## .NET 6 API
