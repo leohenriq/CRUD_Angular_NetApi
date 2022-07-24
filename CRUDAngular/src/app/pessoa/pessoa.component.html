@@ -1,0 +1,84 @@
+<div class="row" id="table-striped">
+  <div class="col-10 offset-1 mt-3">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Pessoas</h2>
+      </div>
+      <div class="p-1 row">
+        <div class="col-md-11">
+          <input type="text" (keyup)="filtrar($event.target.value)" placeholder="Pesquisar..." class="form-control">
+        </div>
+        <div class="col-md-1">
+          <button mat-icon-button (click)="abrirModal('Adicionar')">
+            <mat-icon color="primary">add_circle</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div class="table-responsive p-1">
+        <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2">
+          <span *ngIf="!loading">
+            <div class="text-center m-1" *matNoDataRow>Não há pessoas cadastrados...</div>
+          </span>
+          <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+            <mat-cell *matCellDef="let pessoa"> {{pessoa.id}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="nome">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+            <mat-cell *matCellDef="let pessoa"> {{pessoa.nome}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="dataNascimento">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Data de Nascimento </mat-header-cell>
+            <mat-cell *matCellDef="let pessoa"> {{pessoa.dataNascimento | date: 'dd/MM/yyyy HH:mm:ss'}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+            <mat-cell *matCellDef="let pessoa">
+              <mat-icon color="primary"*ngIf="pessoa.status">check_circle</mat-icon>
+              <mat-icon color="warn"*ngIf="!pessoa.status">cancel</mat-icon>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="acoes">
+            <mat-header-cell *matHeaderCellDef> Ações</mat-header-cell>
+            <mat-cell *matCellDef="let pessoa">
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="habilitar(pessoa)" *ngIf="!pessoa.status">
+                  <mat-icon>done</mat-icon>
+                  <span>Habilitar</span>
+                </button>
+                <button mat-menu-item (click)="desabilitar(pessoa)" *ngIf="pessoa.status">
+                  <mat-icon>close</mat-icon>
+                  <span>Desabilitar</span>
+                </button>
+                <button mat-menu-item (click)="abrirModal('Editar', pessoa)">
+                  <mat-icon>edit</mat-icon>
+                  <span>Editar</span>
+                </button>
+                <button mat-menu-item (click)="abrirModal('Deletar', pessoa)">
+                  <mat-icon color="warn">delete</mat-icon>
+                  <span>Deletar</span>
+                </button>
+              </mat-menu>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let pessoa; columns: displayedColumns;">
+          </mat-row>
+        </mat-table>
+
+        <mat-progress-spinner *ngIf="loading" class="m-1 mx-auto d-block" color="primary" mode="indeterminate"
+          diameter="30">
+        </mat-progress-spinner>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<div class="row text-center">
+  <h1>{{acaoModal}} Pessoa</h1>
+</div>
+<form (ngSubmit)="paramForm.form.valid && realizarAcao()" #paramForm="ngForm">
+  <div class="col-md-12 mt-2">
+    <div class="form-group">
+      <label class="form-control-label">Nome</label>
+      <input type="text" class="form-control" [(ngModel)]="pessoa.nome" #nome="ngModel" name="nome"
+        [ngClass]="{ 'is-invalid': paramForm.submitted && nome.invalid }" required [disabled]="acaoModal == 'Deletar'">
+      <div class="invalid-feedback" *ngIf="paramForm.submitted && nome.invalid">
+        <p *ngIf="nome.errors.required">Campo Obrigatório</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12 mt-2">
+    <div class="form-group">
+      <label class="form-control-label">Data de Nascimento</label>
+      <input type="datetime-local" class="form-control" [(ngModel)]="pessoa.dataNascimento" #dataNascimento="ngModel"
+        name="dataNascimento" [ngClass]="{ 'is-invalid': paramForm.submitted && dataNascimento.invalid }" required
+        [disabled]="acaoModal == 'Deletar'">
+      <div class="invalid-feedback" *ngIf="paramForm.submitted && dataNascimento.invalid">
+        <p *ngIf="dataNascimento.errors.required">Campo Obrigatório</p>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <button type="submit" mat-button color="success" *ngIf="acaoModal != 'Deletar'">{{acaoModal}}</button>
+    <button type="submit" mat-button color="danger" *ngIf="acaoModal == 'Deletar'">{{acaoModal}}</button>
+  </div>
+</form>
